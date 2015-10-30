@@ -1,0 +1,44 @@
+{
+  "name": "ipalaus/oauth2-pinterest",
+  "description": "Pinterest Client Provider for The PHP League OAuth 2.0 Client",
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "Isern Palaus",
+      "email": "ipalaus@ipalaus.com",
+      "homepage": "https://ipalaus.com"
+    }
+  ],
+  "keywords": [
+    "oauth",
+    "oauth2",
+    "client",
+    "authorization",
+    "authorisation",
+    "pinterest"
+  ],
+  "require": {
+    "php": ">=5.5.0",
+    "league/oauth2-client": "~1.0"
+  },
+  "require-dev": {
+    "phpunit/phpunit": "~4.0",
+    "mockery/mockery": "~0.9",
+    "squizlabs/php_codesniffer": "~2.0"
+  },
+  "autoload": {
+    "psr-4": {
+      "Ipalaus\\OAuth2\\Client\\": "src/"
+    }
+  },
+  "autoload-dev": {
+    "psr-4": {
+      "Ipalaus\\OAuth2\\Client\\Test\\": "tests/"
+    }
+  },
+  "extra": {
+    "branch-alias": {
+      "dev-master": "1.0.x-dev"
+    }
+  }
+}
