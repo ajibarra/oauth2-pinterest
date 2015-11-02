@@ -89,6 +89,8 @@ class PinterestTest extends \PHPUnit_Framework_TestCase
         $firstName = uniqid();
         $lastName = uniqid();
         $url = uniqid();
+        $username = uniqid();
+        $image = uniqid();
 
         $postResponse = m::mock('Psr\Http\Message\ResponseInterface');
         $postResponse->shouldReceive('getBody')->andReturn('access_token=mock_access_token&expires=3600&refresh_token=mock_refresh_token&otherKey={1234}');
@@ -96,7 +98,7 @@ class PinterestTest extends \PHPUnit_Framework_TestCase
         $postResponse->shouldReceive('getStatusCode')->andReturn(200);
 
         $userResponse = m::mock('Psr\Http\Message\ResponseInterface');
-        $userResponse->shouldReceive('getBody')->andReturn($this->mockGetMe($userId, $firstName, $lastName, $url));
+        $userResponse->shouldReceive('getBody')->andReturn($this->mockGetMe($userId, $firstName, $lastName, $url, $username, $image));
         $userResponse->shouldReceive('getHeader')->andReturn(['content-type' => 'json']);
         $userResponse->shouldReceive('getStatusCode')->andReturn(200);
 
@@ -115,6 +117,10 @@ class PinterestTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($lastName, $user->toArray()['data']['last_name']);
         $this->assertEquals($url, $user->getUrl());
         $this->assertEquals($url, $user->toArray()['data']['url']);
+        $this->assertEquals($username, $user->getUsername());
+        $this->assertEquals($username, $user->toArray()['data']['username']);
+        $this->assertEquals($image, $user->getAvatar());
+        $this->assertEquals($image, $user->toArray()['data']['image']['60x60']['url']);
     }
 
     /**
@@ -135,16 +141,25 @@ class PinterestTest extends \PHPUnit_Framework_TestCase
         $token = $this->provider->getAccessToken('authorization_code', ['code' => 'mock_authorization_code']);
     }
 
-    protected function mockGetMe($id, $firstName, $lastName, $url)
+    protected function mockGetMe($id, $firstName, $lastName, $url, $username, $image)
     {
         $body = '{
-          "data": {
-            "url": "' . $url . '",
-            "first_name": "' . $firstName . '",
-            "last_name": "' . $lastName . '",
-            "id": "' . $id . '"
-          }
-        }';
+                "data": {
+                    "url": "' . $url . '",
+                    "first_name": "' . $firstName . '",
+                    "last_name": "' . $lastName . '",
+                    "id": "' . $id . '",
+                    "username": "' . $username . '",
+                    "id": "' . $id . '",
+                    "image": {
+                        "60x60": {
+                            "url": "' . $image . '",
+                            "width": 60,
+                            "height": 60
+                        }
+                    }
+                }
+            }';
 
         return $body;
     }

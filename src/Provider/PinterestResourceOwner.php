@@ -34,6 +34,16 @@ class PinterestResourceOwner implements ResourceOwnerInterface
     }
 
     /**
+     * Get resource owner username.
+     *
+     * @return string|null
+     */
+    public function getUsername()
+    {
+        return $this->response['data']['username'] ?: null;
+    }
+
+    /**
      * Get resource first name.
      *
      * @return string|null
@@ -61,6 +71,20 @@ class PinterestResourceOwner implements ResourceOwnerInterface
     public function getUrl()
     {
         return $this->response['data']['url'] ?: null;
+    }
+
+    /**
+     * Get resource avatar.
+     *
+     * @return string|null
+     */
+    public function getAvatar()
+    {
+        if (empty($this->response['data']['image']['60x60']['url'])) {
+            return null;
+        }
+
+        return $this->response['data']['image']['60x60']['url'];
     }
 
     /**

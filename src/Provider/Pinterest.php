@@ -33,7 +33,10 @@ class Pinterest extends AbstractProvider
      */
     public function getResourceOwnerDetailsUrl(AccessToken $token)
     {
-        return 'https://api.pinterest.com/v1/me';
+        $url = "https://api.pinterest.com/v1/me/?access_token={$token->getToken()}";
+        $url .= "&fields=first_name%2Cid%2Clast_name%2Curl%2Cimage%2Cusername";
+
+        return $url;
     }
 
     /**
